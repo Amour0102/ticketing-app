@@ -4,12 +4,11 @@ import { AssessmentReadinessScreen } from './src/screens/AssessmentReadinessScre
 import { CareerPulseDetailScreen } from './src/screens/CareerPulseDetailScreen';
 import { CircleScreen } from './src/screens/CircleScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
-import { OnboardingScreen } from './src/screens/OnboardingScreen';
+import { LoginScreen } from './src/screens/LoginScreen';
 import { PathwaysScreen } from './src/screens/PathwaysScreen';
 import { ProfileScreen } from './src/screens/ProfileScreen';
 import { ProgressScreen } from './src/screens/ProgressScreen';
 import { StrengthMapScreen } from './src/screens/StrengthMapScreen';
-import { WelcomeScreen } from './src/screens/WelcomeScreen';
 import { BottomTabBar } from './src/components/BottomTabBar';
 import { ScreenShell } from './src/components/ScreenShell';
 import { ScreenStateView } from './src/components/ScreenStateView';
@@ -23,17 +22,19 @@ import type {
   OnboardingOptions,
 } from './src/types/onboarding';
 
-type RootPhase = 'welcome' | 'onboarding' | 'app';
-
 const initialProfile: OnboardingData = {
   currentRole: '',
   experienceBand: null,
   biggestConcern: null,
 };
 
+const DEMO_EMAIL = 'agent@demo.com';
+const DEMO_PASSWORD = 'Field123!';
+const SIGN_IN_DELAY_MS = 900;
+
 export default function App() {
-  const [phase, setPhase] = useState<RootPhase>('welcome');
-  const [step, setStep] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const [activeTab, setActiveTab] = useState<AppTab>('home');
   const [detailRoute, setDetailRoute] = useState<DetailRoute | null>(null);
   const [profile, setProfile] = useState<OnboardingData>(initialProfile);
@@ -87,33 +88,38 @@ export default function App() {
     };
   }, [profile, reloadCount]);
 
-  const handleStart = () => {
-    setStep(0);
-    setPhase('onboarding');
-  };
-
-  const handleBack = () => {
-    if (step === 0) {
-      setPhase('welcome');
-      return;
+  const handleSignIn = async (email: string, password: string) => {
+    if (isSigningIn) {
+      return false;
     }
 
-    setStep((currentStep) => currentStep - 1);
-  };
+    setIsSigningIn(true);
 
-  const handleNext = () => {
-    if (step < 2) {
-      setStep((currentStep) => currentStep + 1);
-      return;
+    try {
+      await new Promise((resolve) => {
+        setTimeout(resolve, SIGN_IN_DELAY_MS);
+      });
+
+      const normalizedEmail = email.trim().toLowerCase();
+      const normalizedPassword = password.trim();
+      const isValid =
+        normalizedEmail === DEMO_EMAIL.toLowerCase() &&
+        normalizedPassword === DEMO_PASSWORD;
+
+      if (isValid) {
+        setIsAuthenticated(true);
+        setActiveTab('home');
+        setDetailRoute(null);
+        return true;
+      }
+
+      return false;
+    } finally {
+      setIsSigningIn(false);
     }
-
-    setPhase('app');
-    setActiveTab('home');
   };
 
   const handleReset = () => {
-    setPhase('onboarding');
-    setStep(0);
     setDetailRoute(null);
   };
 
@@ -168,21 +174,8 @@ export default function App() {
     [],
   );
 
-  if (phase === 'welcome') {
-    return <WelcomeScreen onStart={handleStart} />;
-  }
-
-  if (phase === 'onboarding') {
-    return (
-      <OnboardingScreen
-        profile={profile}
-        step={step}
-        options={onboardingOptions}
-        onBack={handleBack}
-        onNext={handleNext}
-        onProfileChange={setProfile}
-      />
-    );
+  if (!isAuthenticated) {
+    return <LoginScreen isLoading={isSigningIn} onSignIn={handleSignIn} />;
   }
 
   if (isLoading) {

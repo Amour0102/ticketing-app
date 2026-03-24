@@ -13,12 +13,14 @@ export const colors = {
   surface: '#FFFDFC',
   surfaceMuted: '#F2E6DA',
   surfaceStrong: '#E9D6C9',
+  inputBackground: '#FFF9F3',
   text: '#2F241E',
   textSoft: '#6E5D53',
   textMuted: '#927E72',
   accent: '#BD6D53',
   accentStrong: '#9F583F',
   accentSoft: '#EBC4B3',
+  accentDeep: '#7F3F2B',
   forest: '#6B7B61',
   forestSoft: '#DDE5D9',
   gold: '#B49158',
@@ -28,6 +30,7 @@ export const colors = {
   overlay: 'rgba(34, 24, 20, 0.08)',
   tabBar: 'rgba(255, 253, 252, 0.94)',
   danger: '#A35646',
+  dangerSoft: '#F6E6E1',
 };
 
 export const spacing = {

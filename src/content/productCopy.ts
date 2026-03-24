@@ -5,6 +5,25 @@ export const productCopy = {
     name: 'Inzira',
     subtitle: 'Career guidance',
   },
+  login: {
+    eyebrow: 'Field access',
+    title: 'Sign in to continue.',
+    subtitle:
+      'Use your assigned work email and password to access the mobile field workspace.',
+    emailLabel: 'Email',
+    emailPlaceholder: 'agent@demo.com',
+    passwordLabel: 'Password',
+    passwordPlaceholder: 'Enter your password',
+    showPassword: 'Show',
+    hidePassword: 'Hide',
+    forgotPassword: 'Forgot password?',
+    forgotPasswordHelp:
+      'Please contact your support lead or system administrator to reset your password.',
+    signIn: 'Sign in',
+    signingIn: 'Signing in...',
+    invalidCredentials: 'Invalid email or password. Please try again.',
+    demoHint: 'Demo account: agent@demo.com / Field123!',
+  },
   welcome: {
     eyebrow: 'Inzira',
     title: 'Thoughtful career guidance for the work you have already earned.',
