@@ -1,32 +1,14 @@
-import { startTransition, useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { AssessmentReadinessScreen } from './src/screens/AssessmentReadinessScreen';
-import { CareerPulseDetailScreen } from './src/screens/CareerPulseDetailScreen';
-import { CircleScreen } from './src/screens/CircleScreen';
-import { HomeScreen } from './src/screens/HomeScreen';
-import { LoginScreen } from './src/screens/LoginScreen';
-import { PathwaysScreen } from './src/screens/PathwaysScreen';
-import { ProfileScreen } from './src/screens/ProfileScreen';
-import { ProgressScreen } from './src/screens/ProgressScreen';
-import { StrengthMapScreen } from './src/screens/StrengthMapScreen';
-import { BottomTabBar } from './src/components/BottomTabBar';
-import { ScreenShell } from './src/components/ScreenShell';
-import { ScreenStateView } from './src/components/ScreenStateView';
-import { productCopy } from './src/content/productCopy';
-import { getAppInsights, getOnboardingOptions } from './src/data/repository';
-import type {
-  AppTab,
-  AppInsightsBundle,
-  DetailRoute,
-  OnboardingData,
-  OnboardingOptions,
-} from './src/types/onboarding';
 
-const initialProfile: OnboardingData = {
-  currentRole: '',
-  experienceBand: null,
-  biggestConcern: null,
-};
+import { BottomTabBar } from './src/components/BottomTabBar';
+import { productCopy } from './src/content/productCopy';
+import { AppHomeScreen } from './src/screens/AppHomeScreen';
+import { LoginScreen } from './src/screens/LoginScreen';
+import { MoreScreen } from './src/screens/MoreScreen';
+import { ReportsScreen } from './src/screens/ReportsScreen';
+import { TicketsScreen } from './src/screens/TicketsScreen';
+import type { AppTab } from './src/types/onboarding';
 
 const DEMO_EMAIL = 'agent@demo.com';
 const DEMO_PASSWORD = 'Field123!';
@@ -36,57 +18,6 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [activeTab, setActiveTab] = useState<AppTab>('home');
-  const [detailRoute, setDetailRoute] = useState<DetailRoute | null>(null);
-  const [profile, setProfile] = useState<OnboardingData>(initialProfile);
-  const [onboardingOptions, setOnboardingOptions] = useState<OnboardingOptions>({
-    experienceOptions: [],
-    concernOptions: [],
-  });
-  const [bundle, setBundle] = useState<AppInsightsBundle | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasLoadError, setHasLoadError] = useState(false);
-  const [reloadCount, setReloadCount] = useState(0);
-
-  useEffect(() => {
-    let isActive = true;
-
-    async function loadData() {
-      setIsLoading(true);
-      setHasLoadError(false);
-
-      try {
-        const [options, insights] = await Promise.all([
-          getOnboardingOptions(),
-          getAppInsights(profile),
-        ]);
-
-        if (!isActive) {
-          return;
-        }
-
-        startTransition(() => {
-          setOnboardingOptions(options);
-          setBundle(insights);
-        });
-      } catch {
-        if (!isActive) {
-          return;
-        }
-
-        setHasLoadError(true);
-      } finally {
-        if (isActive) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void loadData();
-
-    return () => {
-      isActive = false;
-    };
-  }, [profile, reloadCount]);
 
   const handleSignIn = async (email: string, password: string) => {
     if (isSigningIn) {
@@ -109,7 +40,6 @@ export default function App() {
       if (isValid) {
         setIsAuthenticated(true);
         setActiveTab('home');
-        setDetailRoute(null);
         return true;
       }
 
@@ -119,57 +49,20 @@ export default function App() {
     }
   };
 
-  const handleReset = () => {
-    setDetailRoute(null);
-  };
-
-  const handleOpenCareerPulse = () => {
-    setDetailRoute('careerPulse');
-  };
-
-  const handleCloseCareerPulse = () => {
-    setDetailRoute(null);
-  };
-
-  const handleOpenStrengthMap = () => {
-    setDetailRoute('strengthMap');
-  };
-
-  const handleCloseStrengthMap = () => {
-    setDetailRoute(null);
-  };
-
-  const handleOpenAssessmentReadiness = () => {
-    setDetailRoute('assessmentReadiness');
-  };
-
-  const handleCloseAssessmentReadiness = () => {
-    setDetailRoute(null);
-  };
-
-  const handleRetryLoad = () => {
-    setReloadCount((currentCount) => currentCount + 1);
-  };
-
   const tabItems = useMemo(
     () => [
       { key: 'home' as const, label: productCopy.tabs.home, shortLabel: 'Home' },
       {
-        key: 'pathways' as const,
-        label: productCopy.tabs.pathways,
-        shortLabel: 'Path',
-      },
-      { key: 'circle' as const, label: productCopy.tabs.circle, shortLabel: 'Circle' },
-      {
-        key: 'progress' as const,
-        label: productCopy.tabs.progress,
-        shortLabel: 'Progress',
+        key: 'tickets' as const,
+        label: productCopy.tabs.tickets,
+        shortLabel: 'Tickets',
       },
       {
-        key: 'profile' as const,
-        label: productCopy.tabs.profile,
-        shortLabel: 'Profile',
+        key: 'reports' as const,
+        label: productCopy.tabs.reports,
+        shortLabel: 'Reports',
       },
+      { key: 'more' as const, label: productCopy.tabs.more, shortLabel: 'More' },
     ],
     [],
   );
@@ -178,92 +71,12 @@ export default function App() {
     return <LoginScreen isLoading={isSigningIn} onSignIn={handleSignIn} />;
   }
 
-  if (isLoading) {
-    return (
-      <ScreenShell>
-        <ScreenStateView
-          title={productCopy.detail.loadingTitle}
-          body={productCopy.detail.loadingBody}
-        />
-      </ScreenShell>
-    );
-  }
-
-  if (hasLoadError || !bundle) {
-    return (
-      <ScreenShell>
-        <ScreenStateView
-          title={productCopy.detail.emptyTitle}
-          body={productCopy.detail.emptyBody}
-          actionLabel={productCopy.detail.retry}
-          onAction={handleRetryLoad}
-        />
-      </ScreenShell>
-    );
-  }
-
-  if (detailRoute === 'careerPulse') {
-    return (
-      <CareerPulseDetailScreen
-        content={bundle.careerPulse}
-        onBack={handleCloseCareerPulse}
-      />
-    );
-  }
-
-  if (detailRoute === 'strengthMap') {
-    return (
-      <StrengthMapScreen
-        content={bundle.strengthMap}
-        onBack={handleCloseStrengthMap}
-      />
-    );
-  }
-
-  if (detailRoute === 'assessmentReadiness') {
-    return (
-      <AssessmentReadinessScreen
-        content={bundle.assessmentReadiness}
-        onBack={handleCloseAssessmentReadiness}
-      />
-    );
-  }
-
   return (
     <View style={styles.appShell}>
-      {activeTab === 'home' ? (
-        <HomeScreen
-          content={bundle.home}
-          profile={profile}
-          onOpenCareerPulse={handleOpenCareerPulse}
-          onOpenStrengthMap={handleOpenStrengthMap}
-          onOpenAssessmentReadiness={handleOpenAssessmentReadiness}
-          onRefineProfile={handleReset}
-        />
-      ) : null}
-
-      {activeTab === 'pathways' ? (
-        <PathwaysScreen
-          content={bundle.pathways}
-          careerPulse={bundle.careerPulse}
-          strengthMap={bundle.strengthMap}
-          onOpenCareerPulse={handleOpenCareerPulse}
-          onOpenStrengthMap={handleOpenStrengthMap}
-        />
-      ) : null}
-
-      {activeTab === 'circle' ? <CircleScreen content={bundle.circle} /> : null}
-
-      {activeTab === 'progress' ? (
-        <ProgressScreen
-          content={bundle.progress}
-          onOpenAssessmentReadiness={handleOpenAssessmentReadiness}
-        />
-      ) : null}
-
-      {activeTab === 'profile' ? (
-        <ProfileScreen content={bundle.profile} onRefineProfile={handleReset} />
-      ) : null}
+      {activeTab === 'home' ? <AppHomeScreen /> : null}
+      {activeTab === 'tickets' ? <TicketsScreen /> : null}
+      {activeTab === 'reports' ? <ReportsScreen /> : null}
+      {activeTab === 'more' ? <MoreScreen /> : null}
 
       <View style={styles.tabBarWrap}>
         <BottomTabBar

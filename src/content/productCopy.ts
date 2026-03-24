@@ -60,10 +60,9 @@ export const productCopy = {
   },
   tabs: {
     home: 'Home',
-    pathways: 'Pathways',
-    circle: 'Circle',
-    progress: 'Progress',
-    profile: 'Profile',
+    tickets: 'Tickets',
+    reports: 'Reports',
+    more: 'More',
   } satisfies Record<AppTab, string>,
   home: {
     greeting: 'Good to see you',

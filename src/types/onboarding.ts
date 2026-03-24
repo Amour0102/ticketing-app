@@ -2,7 +2,7 @@ export type ExperienceBand = '10-14' | '15-19' | '20-24' | '25+';
 
 export type ConcernId = 'relevance' | 'pivot' | 'security' | 'balance';
 
-export type AppTab = 'home' | 'pathways' | 'circle' | 'progress' | 'profile';
+export type AppTab = 'home' | 'tickets' | 'reports' | 'more';
 
 export type DetailRoute =
   | 'careerPulse'
