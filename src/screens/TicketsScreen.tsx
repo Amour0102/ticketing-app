@@ -1,32 +1,66 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { AppHeader } from '../components/AppHeader';
-import { Card } from '../components/Card';
+import { PrimaryButton } from '../components/PrimaryButton';
 import { ScreenShell } from '../components/ScreenShell';
-import { colors, spacing, typography } from '../theme';
+import { colors, radius, spacing, typography } from '../theme';
 
 export function TicketsScreen() {
   return (
     <ScreenShell contentStyle={styles.content}>
       <AppHeader
-        eyebrow="Work queue"
-        title="Tickets"
-        subtitle="This is the tickets tab placeholder for the authenticated app."
+        title="New ticket"
+        subtitle="Capture an issue from the field"
         compact
       />
 
-      <Card style={styles.mainCard}>
-        <Text style={styles.title}>Tickets</Text>
-        <Text style={styles.body}>
-          Open, assigned, and resolved ticket lists will be added here next.
-        </Text>
-      </Card>
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Category</Text>
+        <Pressable
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.inputShell, pressed && styles.pressed]}
+        >
+          <Text style={styles.placeholder}>Select issue type</Text>
+          <Text style={styles.chevron}>⌄</Text>
+        </Pressable>
+      </View>
 
-      <View style={styles.stack}>
-        <Card tone="muted" style={styles.rowCard}>
-          <Text style={styles.rowLabel}>Current tab</Text>
-          <Text style={styles.rowValue}>Tickets</Text>
-        </Card>
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Location</Text>
+        <TextInput
+          placeholder="Where did this happen?"
+          placeholderTextColor={colors.textMuted}
+          style={styles.input}
+        />
+      </View>
+
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Description</Text>
+        <TextInput
+          multiline
+          placeholder="What happened? Include clear details"
+          placeholderTextColor={colors.textMuted}
+          style={[styles.input, styles.textarea]}
+          textAlignVertical="top"
+        />
+      </View>
+
+      <View style={styles.formGroup}>
+        <Text style={styles.label}>Attachment (optional)</Text>
+        <Pressable
+          accessibilityRole="button"
+          style={({ pressed }) => [styles.inputShell, pressed && styles.pressed]}
+        >
+          <Text style={styles.placeholder}>Attach file or photo</Text>
+          <Text style={styles.chevron}>+</Text>
+        </Pressable>
+      </View>
+
+      <View style={styles.bottomBlock}>
+        <Text style={styles.helper}>
+          Clear details help resolve issues faster.
+        </Text>
+        <PrimaryButton label="Submit ticket" onPress={() => undefined} />
       </View>
     </ScreenShell>
   );
@@ -34,39 +68,67 @@ export function TicketsScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: spacing.xl,
+    gap: 16,
+    paddingTop: 18,
     paddingBottom: 164,
   },
-  mainCard: {
-    gap: spacing.sm,
-  },
-  title: {
-    color: colors.text,
-    fontFamily: typography.label,
-    fontSize: 28,
-  },
-  body: {
-    color: colors.textSoft,
-    fontFamily: typography.body,
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  stack: {
-    gap: spacing.md,
-  },
-  rowCard: {
+  formGroup: {
     gap: spacing.xs,
   },
-  rowLabel: {
-    color: colors.textMuted,
-    fontFamily: typography.label,
-    fontSize: 12,
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
-  },
-  rowValue: {
+  label: {
     color: colors.text,
     fontFamily: typography.label,
+    fontSize: 14,
+    marginLeft: 2,
+  },
+  inputShell: {
+    minHeight: 58,
+    borderRadius: radius.lg,
+    backgroundColor: colors.inputBackground,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  input: {
+    minHeight: 58,
+    borderRadius: radius.lg,
+    backgroundColor: colors.inputBackground,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.md,
+    color: colors.text,
+    fontFamily: typography.body,
+    fontSize: 15,
+  },
+  textarea: {
+    minHeight: 148,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md,
+  },
+  placeholder: {
+    color: colors.textMuted,
+    fontFamily: typography.body,
+    fontSize: 15,
+  },
+  chevron: {
+    color: colors.accentStrong,
+    fontFamily: typography.label,
     fontSize: 20,
+  },
+  bottomBlock: {
+    gap: spacing.sm,
+    paddingTop: spacing.sm,
+  },
+  helper: {
+    color: colors.textSoft,
+    fontFamily: typography.body,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  pressed: {
+    opacity: 0.86,
   },
 });

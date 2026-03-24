@@ -41,10 +41,10 @@ export function AppHeader({
 
 const styles = StyleSheet.create({
   wrap: {
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   wrapCompact: {
-    gap: spacing.sm,
+    gap: spacing.xs,
   },
   copy: {
     gap: spacing.xs,
@@ -63,14 +63,15 @@ const styles = StyleSheet.create({
     lineHeight: typeScale.title.lineHeight,
   },
   titleCompact: {
-    fontSize: typeScale.section.fontSize,
-    lineHeight: typeScale.section.lineHeight,
+    fontSize: 32,
+    lineHeight: 36,
   },
   subtitle: {
     color: colors.textSoft,
     fontFamily: typography.body,
-    fontSize: typeScale.body.fontSize,
-    lineHeight: typeScale.body.lineHeight,
+    fontSize: 15,
+    lineHeight: 21,
+    maxWidth: 280,
   },
   action: {
     alignSelf: 'flex-start',

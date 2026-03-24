@@ -29,10 +29,11 @@ export function ScreenShell({ children, contentStyle }: ScreenShellProps) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <View style={styles.root}>
         <View style={styles.glowTop} />
         <View style={styles.glowBottom} />
+        <View style={styles.noiseLayer} />
         <Animated.View
           style={[
             styles.animatedLayer,
@@ -73,23 +74,28 @@ const styles = StyleSheet.create({
   },
   glowTop: {
     position: 'absolute',
-    top: -80,
-    right: -20,
-    width: 220,
-    height: 220,
+    top: -120,
+    right: -60,
+    width: 260,
+    height: 260,
     borderRadius: 999,
     backgroundColor: colors.accentSoft,
-    opacity: 0.28,
+    opacity: 1,
   },
   glowBottom: {
     position: 'absolute',
-    bottom: -80,
-    left: -60,
-    width: 200,
-    height: 200,
+    bottom: -100,
+    left: -80,
+    width: 240,
+    height: 240,
     borderRadius: 999,
     backgroundColor: colors.goldSoft,
-    opacity: 0.42,
+    opacity: 1,
+  },
+  noiseLayer: {
+    position: 'absolute',
+    inset: 0,
+    backgroundColor: 'rgba(255,255,255,0.01)',
   },
   animatedLayer: {
     flex: 1,
@@ -97,7 +103,7 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     paddingHorizontal: spacing.lg,
-    paddingTop: spacing.xl,
-    paddingBottom: spacing.xxxl,
+    paddingTop: 20,
+    paddingBottom: 132,
   },
 });

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: spacing.xs,
-    padding: spacing.xs,
+    padding: 6,
     borderRadius: radius.xl,
     backgroundColor: colors.tabBar,
     borderWidth: 1,
@@ -69,31 +69,30 @@ const styles = StyleSheet.create({
   tab: {
     flex: 1,
     alignItems: 'center',
-    gap: 6,
-    minHeight: 54,
+    gap: 5,
+    minHeight: 56,
     justifyContent: 'center',
-    borderRadius: radius.lg,
+    borderRadius: 18,
   },
   tabActive: {
-    backgroundColor: colors.backgroundSoft,
+    backgroundColor: 'rgba(255,255,255,0.06)',
   },
   tabPressed: {
     opacity: 0.82,
   },
   dot: {
-    width: 6,
-    height: 6,
+    width: 18,
+    height: 4,
     borderRadius: radius.pill,
     backgroundColor: colors.textMuted,
   },
   dotActive: {
-    width: 18,
     backgroundColor: colors.accent,
   },
   label: {
     color: colors.textMuted,
     fontFamily: typography.label,
-    fontSize: 11,
+    fontSize: 12,
   },
   labelActive: {
     color: colors.text,

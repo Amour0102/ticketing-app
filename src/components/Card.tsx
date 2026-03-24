@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   },
   accent: {
     backgroundColor: colors.surfaceStrong,
+    borderColor: 'rgba(98, 160, 255, 0.18)',
   },
   muted: {
     backgroundColor: colors.surfaceMuted,

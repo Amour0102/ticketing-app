@@ -32,21 +32,23 @@ export function PrimaryButton({
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    backgroundColor: colors.text,
+    backgroundColor: colors.accent,
     borderRadius: radius.pill,
-    minHeight: 54,
+    minHeight: 52,
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   buttonDisabled: {
     backgroundColor: colors.textMuted,
   },
   buttonPressed: {
-    opacity: 0.94,
-    transform: [{ scale: 0.985 }],
+    opacity: 0.96,
+    transform: [{ scale: 0.992 }],
   },
   label: {
-    color: colors.surface,
+    color: colors.text,
     fontFamily: typography.label,
     fontSize: 15,
   },

@@ -9,23 +9,45 @@ export function ReportsScreen() {
   return (
     <ScreenShell contentStyle={styles.content}>
       <AppHeader
-        eyebrow="Field logs"
         title="Reports"
-        subtitle="This is the reports tab placeholder for the authenticated app."
+        subtitle="View analytics and ticket data"
         compact
       />
 
-      <Card tone="accent" style={styles.mainCard}>
-        <Text style={styles.title}>Reports</Text>
-        <Text style={styles.body}>
-          Report creation and submission flows will be added here next.
+      <Card style={styles.heroCard}>
+        <View style={styles.heroTopRow}>
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>Overview</Text>
+          </View>
+          <Text style={styles.heroMeta}>This week</Text>
+        </View>
+        <Text style={styles.heroTitle}>No reporting data yet</Text>
+        <Text style={styles.heroBody}>
+          Ticket analytics will appear here once issues are submitted.
         </Text>
       </Card>
 
-      <View style={styles.stack}>
-        <Card style={styles.rowCard}>
-          <Text style={styles.rowLabel}>Current tab</Text>
-          <Text style={styles.rowValue}>Reports</Text>
+      <View style={styles.grid}>
+        <Card style={styles.smallCard}>
+          <Text style={styles.smallLabel}>Total tickets</Text>
+          <Text style={styles.smallValue}>0</Text>
+        </Card>
+
+        <Card tone="muted" style={styles.smallCard}>
+          <Text style={styles.smallLabel}>Resolved</Text>
+          <Text style={styles.smallValue}>0</Text>
+        </Card>
+      </View>
+
+      <View style={styles.grid}>
+        <Card style={styles.smallCard}>
+          <Text style={styles.smallLabel}>Open</Text>
+          <Text style={styles.smallValue}>0</Text>
+        </Card>
+
+        <Card tone="muted" style={styles.smallCard}>
+          <Text style={styles.smallLabel}>Urgent</Text>
+          <Text style={styles.smallValue}>0</Text>
         </Card>
       </View>
     </ScreenShell>
@@ -34,39 +56,67 @@ export function ReportsScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: spacing.xl,
+    gap: spacing.lg,
+    paddingTop: 18,
     paddingBottom: 164,
   },
-  mainCard: {
+  heroCard: {
     gap: spacing.sm,
+    minHeight: 164,
+    justifyContent: 'space-between',
   },
-  title: {
-    color: colors.text,
+  heroTopRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  badge: {
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: colors.accentSoft,
+  },
+  badgeText: {
+    color: colors.accentStrong,
     fontFamily: typography.label,
-    fontSize: 28,
+    fontSize: 11,
   },
-  body: {
+  heroMeta: {
+    color: colors.textMuted,
+    fontFamily: typography.label,
+    fontSize: 12,
+  },
+  heroTitle: {
+    color: colors.text,
+    fontFamily: typography.display,
+    fontSize: 28,
+    lineHeight: 32,
+  },
+  heroBody: {
     color: colors.textSoft,
     fontFamily: typography.body,
     fontSize: 15,
     lineHeight: 22,
   },
-  stack: {
-    gap: spacing.md,
+  grid: {
+    flexDirection: 'row',
+    gap: 14,
   },
-  rowCard: {
-    gap: spacing.xs,
+  smallCard: {
+    flex: 1,
+    gap: spacing.sm,
+    minHeight: 112,
+    justifyContent: 'space-between',
   },
-  rowLabel: {
+  smallLabel: {
     color: colors.textMuted,
     fontFamily: typography.label,
     fontSize: 12,
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
   },
-  rowValue: {
+  smallValue: {
     color: colors.text,
-    fontFamily: typography.label,
-    fontSize: 20,
+    fontFamily: typography.display,
+    fontSize: 34,
+    lineHeight: 36,
   },
 });

@@ -49,6 +49,15 @@ export default function App() {
     }
   };
 
+  const handleOpenTickets = () => {
+    setActiveTab('tickets');
+  };
+
+  const handleLogOut = () => {
+    setIsAuthenticated(false);
+    setActiveTab('home');
+  };
+
   const tabItems = useMemo(
     () => [
       { key: 'home' as const, label: productCopy.tabs.home, shortLabel: 'Home' },
@@ -73,10 +82,10 @@ export default function App() {
 
   return (
     <View style={styles.appShell}>
-      {activeTab === 'home' ? <AppHomeScreen /> : null}
+      {activeTab === 'home' ? <AppHomeScreen onReportIssue={handleOpenTickets} /> : null}
       {activeTab === 'tickets' ? <TicketsScreen /> : null}
       {activeTab === 'reports' ? <ReportsScreen /> : null}
-      {activeTab === 'more' ? <MoreScreen /> : null}
+      {activeTab === 'more' ? <MoreScreen onLogOut={handleLogOut} /> : null}
 
       <View style={styles.tabBarWrap}>
         <BottomTabBar

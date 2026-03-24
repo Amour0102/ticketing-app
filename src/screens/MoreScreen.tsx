@@ -1,72 +1,128 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { AppHeader } from '../components/AppHeader';
-import { Card } from '../components/Card';
 import { ScreenShell } from '../components/ScreenShell';
 import { colors, spacing, typography } from '../theme';
 
-export function MoreScreen() {
+type MoreScreenProps = {
+  onLogOut: () => void;
+};
+
+type SectionItem = {
+  label: string;
+  onPress?: () => void;
+};
+
+const accountItems: SectionItem[] = [
+  { label: 'Profile' },
+  { label: 'Notifications' },
+];
+
+const supportItems: SectionItem[] = [
+  { label: 'Help center' },
+  { label: 'Contact support' },
+];
+
+export function MoreScreen({ onLogOut }: MoreScreenProps) {
+  const appItems: SectionItem[] = [
+    { label: 'Settings' },
+    { label: 'Log out', onPress: onLogOut },
+  ];
+
   return (
     <ScreenShell contentStyle={styles.content}>
-      <AppHeader
-        eyebrow="Account"
-        title="More"
-        subtitle="This is the more tab placeholder for the authenticated app."
-        compact
-      />
+      <AppHeader title="More" compact />
 
-      <Card style={styles.mainCard}>
-        <Text style={styles.title}>More</Text>
-        <Text style={styles.body}>
-          Settings, support, and secondary tools will be added here next.
-        </Text>
-      </Card>
+      <View style={styles.section}>
+        <Text style={styles.sectionLabel}>Account</Text>
+        <View style={styles.list}>
+          {accountItems.map((item) => (
+            <MoreRow key={item.label} label={item.label} onPress={item.onPress} />
+          ))}
+        </View>
+      </View>
 
-      <View style={styles.stack}>
-        <Card tone="muted" style={styles.rowCard}>
-          <Text style={styles.rowLabel}>Current tab</Text>
-          <Text style={styles.rowValue}>More</Text>
-        </Card>
+      <View style={styles.section}>
+        <Text style={styles.sectionLabel}>Support</Text>
+        <View style={styles.list}>
+          {supportItems.map((item) => (
+            <MoreRow key={item.label} label={item.label} onPress={item.onPress} />
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Text style={styles.sectionLabel}>App</Text>
+        <View style={styles.list}>
+          {appItems.map((item) => (
+            <MoreRow key={item.label} label={item.label} onPress={item.onPress} />
+          ))}
+        </View>
       </View>
     </ScreenShell>
   );
 }
 
+function MoreRow({ label, onPress }: SectionItem) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress ?? (() => undefined)}
+      style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+    >
+      <Text style={styles.rowLabel}>{label}</Text>
+      <Text style={styles.chevron}>›</Text>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   content: {
-    gap: spacing.xl,
+    gap: spacing.lg,
+    paddingTop: 18,
     paddingBottom: 164,
   },
-  mainCard: {
+  section: {
     gap: spacing.sm,
   },
-  title: {
-    color: colors.text,
-    fontFamily: typography.label,
-    fontSize: 28,
-  },
-  body: {
-    color: colors.textSoft,
-    fontFamily: typography.body,
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  stack: {
-    gap: spacing.md,
-  },
-  rowCard: {
-    gap: spacing.xs,
-  },
-  rowLabel: {
+  sectionLabel: {
     color: colors.textMuted,
     fontFamily: typography.label,
     fontSize: 12,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
   },
-  rowValue: {
+  list: {
+    borderRadius: 20,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    borderWidth: 1,
+    borderColor: colors.border,
+    overflow: 'hidden',
+  },
+  rowLabel: {
     color: colors.text,
+    fontFamily: typography.body,
+    fontSize: 16,
+  },
+  row: {
+    minHeight: 58,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing.md,
+    paddingHorizontal: spacing.md,
+    backgroundColor: colors.surface,
+  },
+  chevron: {
+    color: colors.textMuted,
     fontFamily: typography.label,
-    fontSize: 20,
+    fontSize: 22,
+  },
+  rowPressed: {
+    opacity: 0.72,
   },
 });
